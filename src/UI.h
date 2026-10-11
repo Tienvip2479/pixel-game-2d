@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
-
 #include "Player.h"
 
 class UI {
@@ -19,4 +18,6 @@ private:
     sf::Text scoreText_;
     sf::Text waveText_;
     sf::Text statusText_;
+    sf::Text statText_;
+    sf::Text equipmentText_;
 };

@@ -6,12 +6,23 @@
 #include "Map.h"
 
 Player::Player() {
+    baseStats = {5, 10, 5, 220.f, 5, 5};
+    equipment = EquipmentSystem();
+    recalcStats();
     pos = Vec2{200.f, 200.f};
     shape.setRadius(radius);
     shape.setFillColor(sf::Color(110, 220, 180));
     shape.setOutlineColor(sf::Color(16, 80, 70));
     shape.setOutlineThickness(2.f);
     shape.setPosition(pos.x - radius, pos.y - radius);
+    hp = maxHp;
+}
+
+void Player::recalcStats() {
+    effectiveStats = equipment.computeStats(baseStats);
+    maxHp = effectiveStats.maxHp;
+    moveSpeed = effectiveStats.speed;
+    if (hp > maxHp) hp = maxHp;
 }
 
 void Player::update(float dt, bool left, bool right, bool up, bool down,
@@ -26,8 +37,8 @@ void Player::update(float dt, bool left, bool right, bool up, bool down,
         float length = std::sqrt(dir.x * dir.x + dir.y * dir.y);
         dir.x /= length;
         dir.y /= length;
-        pos.x += dir.x * 220.f * dt;
-        pos.y += dir.y * 220.f * dt;
+        pos.x += dir.x * moveSpeed * dt;
+        pos.y += dir.y * moveSpeed * dt;
     }
 
     pos.x = std::max(radius, std::min(pos.x, static_cast<float>(Map::Cols * Map::TileSize) - radius));

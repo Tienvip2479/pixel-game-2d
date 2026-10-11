@@ -1,8 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <string>
+#include <vector>
 
-#include "Map.h"
+#include "Equipment.h"
 
 struct Vec2;
 
@@ -13,6 +15,7 @@ public:
                 const sf::Vector2f& mouseWorld, const Map& map);
     void draw(sf::RenderWindow& window) const;
     sf::FloatRect bounds() const;
+    void recalcStats();
 
     Vec2 pos;
     float radius = 16.f;
@@ -25,4 +28,9 @@ public:
     sf::CircleShape shape;
     Vec2 aim;
     bool alive = true;
+
+    CharacterStats baseStats;
+    CharacterStats effectiveStats;
+    EquipmentSystem equipment;
+    float moveSpeed = 220.f;
 };
